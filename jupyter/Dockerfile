@@ -47,7 +47,7 @@ RUN pip install \
     pyexcel-xlsx==0.6.1 \
     spm1d==0.4.53 \
     statsmodels==0.14.6 \
-    stochastic==0.7.0 \
+    stochastic==0.6.0 \
     lxml==6.1.0
 
 # Install pyActigraphy from GitHub (artvalencio fork)

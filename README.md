@@ -135,7 +135,7 @@ No token or password is required.
 | pyexcel-ods3 | 0.6.1 |
 | pyexcel-xlsx | 0.6.1 |
 | spm1d | 0.4.53 |
-| stochastic | 0.7.0 |
+| stochastic | 0.6.0 |
 | lxml | 6.1.0 |
 
 ---
