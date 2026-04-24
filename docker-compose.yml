@@ -1,22 +1,14 @@
-version: "3"
 services:
 
   jupyter:
-    image: ${IMAGE_NAME}:latest
-    user: root
-    environment:
-      NB_UID=1001
-      NB_GID=1001
     build:
       context: ./jupyter
+      dockerfile: Dockerfile
+    image: ${IMAGE_NAME}:latest
     ports:
-      - "8888:8888"
+      - "8889:8888"
     working_dir: /home/jovyan/${IMAGE_NAME}
     volumes:
-          - ".:/home/jovyan/${IMAGE_NAME}"
-          - "./src:/home/jovyan/${IMAGE_NAME}/src"
-          - "./test:/home/jovyan/${IMAGE_NAME}/test"
-          - "./data:/home/jovyan/${IMAGE_NAME}/data"
-          - "./jupyter:/home/jovyan/${IMAGE_NAME}/jupyter"
+      - ".:/home/jovyan/${IMAGE_NAME}"
     environment:
-          - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_ENABLE_LAB=yes
