@@ -1,9 +1,9 @@
 # 🐳 circadiaBase_Docker
 
-**A reproducible Docker environment for chronobiology and actigraphy research, built on Python 3.10 + R 4.4.2 + JupyterLab + RStudio.**
+**A reproducible Docker environment for chronobiology and actigraphy research, built on Python 3.11 + R 4.4.2 + JupyterLab + RStudio.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.10-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
 [![R](https://img.shields.io/badge/R-4.4.2-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
 [![JupyterLab](https://img.shields.io/badge/JupyterLab-4.5.6-orange)](https://jupyterlab.readthedocs.io/)
 [![RStudio](https://img.shields.io/badge/RStudio-rocker%2Fverse-75AADB?logo=rstudio&logoColor=white)](https://rocker-project.org/)
@@ -110,31 +110,30 @@ docker-compose up rstudio
 
 | Package | Version | Purpose |
 |---|---|---|
-| Python | 3.10 | Base interpreter |
+| Python | 3.11 | Base interpreter |
 | JupyterLab | 4.5.6 | Notebook interface |
 | notebook | 7.5.5 | Classic notebook support |
-| ipywidgets | 8.1.7 | Interactive widgets / progress bars |
 
 ### Scientific stack
 
 | Package | Version | Purpose |
 |---|---|---|
 | numpy | 1.26.4 | Numerical computing |
-| scipy | 1.15.3 | Scientific algorithms |
-| pandas | 1.5.3 | Tabular data |
-| matplotlib | 3.10.9 | Plotting |
+| scipy | 1.14.1 | Scientific algorithms |
+| pandas | 2.2.2 | Tabular data |
+| matplotlib | 3.9.2 | Plotting |
 | seaborn | 0.13.2 | Statistical visualisation |
 | scikit-learn | 1.5.2 | Machine learning |
 | statsmodels | 0.14.6 | Statistical modelling |
-| plotly | 6.7.0 | Interactive plots |
+| plotly | 4.11.0 | Interactive plots |
 
 ### Chronobiology & sleep
 
 | Package | Version | Purpose |
 |---|---|---|
-| pyActigraphy | 1.2.2 (PyPI) | Actigraphy analysis, REST-activity, cosinor, SSA |
-| mne | 1.12.1 | EEG/MEG processing |
-| yasa | 0.7.0 | Automatic sleep staging |
+| pyActigraphy | GitHub (artvalencio) | Actigraphy analysis, REST-activity, cosinor, SSA |
+| mne | 1.8.0 | EEG/MEG processing |
+| yasa | 0.6.5 | Automatic sleep staging |
 | EntropyHub | 2.0 | Entropy-based time series methods |
 
 ---
@@ -168,10 +167,10 @@ docker-compose up rstudio
 
 ## 👥 Authors
 
-| Role | Name |
+| Role | Names |
 |---|---|
-| Developer | Lucas França |
-| Contributor | Mario Miguel |
+| Principal Investigators | Lucas França, Mario Leocadio-Miguel |
+| Development | Lucas França, Mario Leocadio-Miguel |
 
 ---
 
@@ -185,6 +184,8 @@ docker-compose up rstudio
 
 ## 📄 Licence
 
-Released under the [MIT License](./LICENSE).
+![](https://raw.githubusercontent.com/circadia-bio/circadiaBase_Docker/main/assets/images/logo.png)
 
-Copyright © AlgosL, 2024
+Copyright © Circadia Lab — Lucas França & Mario Leocadio-Miguel
+
+Released under the [MIT License](./LICENSE).
