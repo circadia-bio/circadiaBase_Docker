@@ -17,7 +17,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install --upgrade pip
 
 # Install Jupyter
-RUN pip install jupyterlab notebook
+RUN pip install \
+    jupyterlab==4.5.6 \
+    notebook==7.5.5
 
 # Install pinned scientific stack first (order matters for binary compatibility)
 RUN pip install \
@@ -37,16 +39,16 @@ RUN pip install \
 
 # Install pyActigraphy dependencies explicitly before the package itself
 RUN pip install \
-    joblib \
-    lmfit \
-    numba \
-    pyexcel \
-    pyexcel-ods3 \
-    pyexcel-xlsx \
-    spm1d \
-    statsmodels \
-    stochastic \
-    lxml
+    joblib==1.5.3 \
+    lmfit==1.3.4 \
+    numba==0.65.1 \
+    pyexcel==0.7.4 \
+    pyexcel-ods3==0.6.1 \
+    pyexcel-xlsx==0.6.1 \
+    spm1d==0.4.53 \
+    statsmodels==0.14.6 \
+    stochastic==0.7.0 \
+    lxml==6.1.0
 
 # Install pyActigraphy from GitHub (artvalencio fork)
 RUN pip install git+https://github.com/artvalencio/pyActigraphy
