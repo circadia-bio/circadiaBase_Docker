@@ -26,7 +26,7 @@
 - 📓 **JupyterLab** — browser-based notebook interface at `localhost:8889`
 - 🧪 **RStudio Server** — full IDE for R at `localhost:8787`
 - 📂 **Shared volume** — both services read/write the same project files
-- 📡 **pyActigraphy 1.2.2** — actigraphy analysis including REST-activity metrics, cosinor, and SSA
+- 📡 **pyActigraphy** — actigraphy analysis including REST-activity metrics, cosinor, and SSA
 - 🧠 **MNE + YASA** — EEG processing and automatic sleep staging
 - 📊 **Full scientific stack** — numpy, scipy, pandas, matplotlib, scikit-learn, seaborn, statsmodels, plotly
 - 🌀 **EntropyHub** — entropy methods for physiological time series
@@ -169,7 +169,6 @@ docker-compose up rstudio
 
 | Role | Names |
 |---|---|
-| Principal Investigators | Lucas França, Mario Leocadio-Miguel |
 | Development | Lucas França, Mario Leocadio-Miguel |
 
 ---
@@ -184,7 +183,7 @@ docker-compose up rstudio
 
 ## 📄 Licence
 
-![](https://raw.githubusercontent.com/circadia-bio/circadiaBase_Docker/main/assets/images/logo.png)
+![](https://raw.githubusercontent.com/circadia-bio/circadiaBase_Docker/main/logo.png)
 
 Copyright © Circadia Lab — Lucas França & Mario Leocadio-Miguel
 
