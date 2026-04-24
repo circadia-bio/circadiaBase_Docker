@@ -2,7 +2,7 @@ version: "3"
 services:
 
   jupyter:
-    image: python_NAMEglycemic:latest
+    image: ${IMAGE_NAME}:latest
     user: root
     environment:
       NB_UID=1001
@@ -11,12 +11,12 @@ services:
       context: ./jupyter
     ports:
       - "8888:8888"
-    working_dir: /home/jovyan/NAME
+    working_dir: /home/jovyan/${IMAGE_NAME}
     volumes:
-          - ".:/home/jovyan/NAME"
-          - "./src:/home/jovyan/NAME/src"
-          - "./test:/home/jovyan/NAME/test"
-          - "./data:/home/jovyan/NAME/data"
-          - "./jupyter:/home/jovyan/NAME/jupyter"
+          - ".:/home/jovyan/${IMAGE_NAME}"
+          - "./src:/home/jovyan/${IMAGE_NAME}/src"
+          - "./test:/home/jovyan/${IMAGE_NAME}/test"
+          - "./data:/home/jovyan/${IMAGE_NAME}/data"
+          - "./jupyter:/home/jovyan/${IMAGE_NAME}/jupyter"
     environment:
           - JUPYTER_ENABLE_LAB=yes
