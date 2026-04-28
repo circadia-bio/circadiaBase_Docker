@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
 [![R](https://img.shields.io/badge/R-4.4.2-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
 [![JupyterLab](https://img.shields.io/badge/JupyterLab-4.5.6-orange)](https://jupyterlab.readthedocs.io/)
-[![RStudio](https://img.shields.io/badge/RStudio-rocker%2Fverse-75AADB?logo=rstudio&logoColor=white)](https://rocker-project.org/)
+[![RStudio](https://img.shields.io/badge/RStudio-rocker%2Fverse%3A4.4.2-75AADB?logo=rstudio&logoColor=white)](https://rocker-project.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 
 ---
@@ -145,7 +145,7 @@ docker-compose up rstudio
 | Package | Version | Purpose |
 |---|---|---|
 | R | 4.4.2 | Base interpreter |
-| rocker/verse | 4.4.2 | tidyverse, devtools, rmarkdown, ggplot2 |
+| rocker/verse | 4.4.2 (amd64 via Rosetta) | tidyverse, devtools, rmarkdown, ggplot2 |
 
 ### ggplot2 extensions
 
