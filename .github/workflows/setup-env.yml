@@ -1,0 +1,32 @@
+name: Generate .env
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.env'
+
+jobs:
+  generate-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate .env from repo name
+        run: |
+          # Get repo name, convert to Docker-safe format:
+          # lowercase, replace non-alphanumeric (except hyphen) with underscore
+          REPO_NAME="${{ github.event.repository.name }}"
+          IMAGE_NAME=$(echo "$REPO_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/_/g')
+          echo "IMAGE_NAME=${IMAGE_NAME}" > .env
+          echo "Generated .env with IMAGE_NAME=${IMAGE_NAME}"
+
+      - name: Commit .env if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .env
+          git diff --cached --quiet || git commit -m "🔧 chore: auto-generate .env from repo name"
+          git push
