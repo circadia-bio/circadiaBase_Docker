@@ -1,4 +1,8 @@
-FROM rocker/verse:4.4.2
+FROM rocker/rstudio:4.4
+
+# Install tidyverse + verse stack using rocker's own scripts
+RUN /rocker_scripts/install_tidyverse.sh
+RUN /rocker_scripts/install_verse.sh
 
 # System dependencies for R packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
