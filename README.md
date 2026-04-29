@@ -81,6 +81,38 @@ docker-compose up --build
 
 ---
 
+## 🤖 GitHub Actions — Auto-configuration
+
+This repository includes a GitHub Actions workflow (`.github/workflows/setup-env.yml`) that runs automatically on every push to `main`. It does two things:
+
+**1. Generates `.env` from the repo name**
+
+When you fork or use this repo as a template, the workflow reads the repository name, converts it to a Docker-safe format (lowercase, underscores for special characters), and writes it as `IMAGE_NAME` in `.env`. This means collaborators never need to manually configure the image name — it's set correctly the first time they push.
+
+For example, a repo named `Per3_Study` becomes `IMAGE_NAME=per3_study`.
+
+**2. Resets the README to a stub template (first push only)**
+
+On the first push to a new repo, if the README still contains placeholder text, the workflow replaces it with a minimal stub pre-filled with the repo name and Circadia Lab authorship. This only runs once — once you customise the README, the workflow detects it has been updated and skips the reset on all future pushes.
+
+### Requirements
+
+For the workflow to commit back to the repo, GitHub Actions needs write permissions. Enable this in your repo under:
+
+**Settings → Actions → General → Workflow permissions → Read and write permissions**
+
+### Local setup (without GitHub Actions)
+
+If you are working locally without pushing to GitHub first, create `.env` manually:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `IMAGE_NAME` to match your project name if needed.
+
+---
+
 ## ⚙️ Configuration
 
 All configuration lives in `.env`:

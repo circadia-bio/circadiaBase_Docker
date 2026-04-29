@@ -8,14 +8,15 @@ This guide walks you through setting up, running, and using the circadiaBase_Doc
 
 1. [Prerequisites](#1-prerequisites)
 2. [Installation](#2-installation)
-3. [Configuration](#3-configuration)
-4. [Building and Running](#4-building-and-running)
-5. [Using JupyterLab](#5-using-jupyterlab)
-6. [Using RStudio Server](#6-using-rstudio-server)
-7. [Working with Shared Files](#7-working-with-shared-files)
-8. [Managing the Stack](#8-managing-the-stack)
-9. [Switching R Profiles](#9-switching-r-profiles)
-10. [Troubleshooting](#10-troubleshooting)
+3. [GitHub Actions — Auto-configuration](#3-github-actions--auto-configuration)
+4. [Configuration](#4-configuration)
+5. [Building and Running](#5-building-and-running)
+6. [Using JupyterLab](#6-using-jupyterlab)
+7. [Using RStudio Server](#7-using-rstudio-server)
+8. [Working with Shared Files](#8-working-with-shared-files)
+9. [Managing the Stack](#9-managing-the-stack)
+10. [Switching R Profiles](#10-switching-r-profiles)
+11. [Troubleshooting](#11-troubleshooting)
 
 ---
 
@@ -52,7 +53,67 @@ cd circadiaBase_Docker
 
 ---
 
-## 3. Configuration
+## 3. GitHub Actions — Auto-configuration
+
+This repo ships with a GitHub Actions workflow at `.github/workflows/setup-env.yml` that runs automatically on every push to `main`.
+
+### What it does
+
+**Generates `.env` from the repo name**
+
+The workflow reads the repository name, converts it to a Docker-safe string (lowercase, special characters replaced with underscores), and writes it as `IMAGE_NAME` in `.env`. It preserves all other variables in the file (`DISABLE_AUTH`, `RSTUDIO_PROFILE`, etc.).
+
+For example:
+
+| Repo name | Generated `IMAGE_NAME` |
+|---|---|
+| `circadiaBase_Docker` | `circadiabase_docker` |
+| `Per3_Study` | `per3_study` |
+| `my-actigraphy-project` | `my-actigraphy-project` |
+
+**Resets the README to a stub (first push only)**
+
+If the README still contains the original placeholder text (e.g. `_Brief description_`), the workflow replaces it with a minimal stub pre-filled with the repo name and Circadia Lab authorship. On all subsequent pushes the README is left untouched.
+
+### Enabling write permissions
+
+The workflow needs permission to commit back to the repo. Enable this once per repo:
+
+1. Go to your repo on GitHub
+2. **Settings → Actions → General**
+3. Under **Workflow permissions**, select **Read and write permissions**
+4. Click **Save**
+
+### What happens on first push
+
+```
+You push to main
+       │
+       ▼
+Workflow runs
+       │
+       ├── .env exists?  ──Yes──▶ Update IMAGE_NAME in place
+       │                  No────▶ Copy .env.example → .env, set IMAGE_NAME
+       │
+       ├── Commit & push .env
+       │
+       └── README has placeholders?  ──Yes──▶ Reset to stub, commit & push
+                                       No────▶ Skip (README already customised)
+```
+
+### Working locally without GitHub Actions
+
+If you are not pushing to GitHub (e.g. running locally on a cloned copy), create `.env` manually:
+
+```bash
+cp .env.example .env
+```
+
+The default `IMAGE_NAME=circadia_base` will work fine for local use. Edit it if you want the image named after your project.
+
+---
+
+## 4. Configuration
 
 Copy the example environment file:
 
@@ -88,7 +149,7 @@ For most use cases, start with `minimal`. You can always rebuild with a heavier 
 
 ---
 
-## 4. Building and Running
+## 5. Building and Running
 
 ### First run (builds Docker images)
 
@@ -130,7 +191,7 @@ docker-compose down
 
 ---
 
-## 5. Using JupyterLab
+## 6. Using JupyterLab
 
 Once running, open your browser and navigate to:
 
@@ -170,7 +231,7 @@ All files saved inside `/home/jovyan/<IMAGE_NAME>/` are written to the shared pr
 
 ---
 
-## 6. Using RStudio Server
+## 7. Using RStudio Server
 
 Once running, open your browser and navigate to:
 
@@ -225,7 +286,7 @@ Or use the **Files** pane → navigate to the folder → **More** → **Set As W
 
 ---
 
-## 7. Working with Shared Files
+## 8. Working with Shared Files
 
 Both services mount the same project directory, so files created in one are immediately visible in the other.
 
@@ -257,7 +318,7 @@ circadiaBase_Docker/
 
 ---
 
-## 8. Managing the Stack
+## 9. Managing the Stack
 
 ### Stop all services
 
@@ -294,7 +355,7 @@ docker-compose build --no-cache rstudio
 
 ---
 
-## 9. Switching R Profiles
+## 10. Switching R Profiles
 
 To switch from `minimal` to a heavier profile, edit `.env`:
 
@@ -313,7 +374,7 @@ docker-compose up
 
 ---
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 ### Cannot connect to JupyterLab or RStudio
 
