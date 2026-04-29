@@ -1,7 +1,4 @@
-FROM rocker/r2u:noble
-
-# Install RStudio Server on top of r2u
-RUN /rocker_scripts/install_rstudio.sh
+FROM jmgirard/rstudio2u:latest
 
 # r2u + bspm means install.packages() automatically uses apt binaries
 # All packages below install as pre-built .deb files — no compilation needed
