@@ -1,6 +1,7 @@
 services:
 
   jupyter:
+    profiles: ["jupyter", "both"]
     build:
       context: ./jupyter
       dockerfile: Dockerfile
@@ -14,6 +15,7 @@ services:
       - JUPYTER_ENABLE_LAB=yes
 
   rstudio:
+    profiles: ["rstudio", "both"]
     build:
       context: ./rstudio
       dockerfile: Dockerfile.${RSTUDIO_PROFILE:-minimal}

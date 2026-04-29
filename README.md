@@ -120,8 +120,17 @@ All configuration lives in `.env`:
 ```bash
 IMAGE_NAME=circadia_base       # Docker image name — set automatically from repo name
 DISABLE_AUTH=true              # Disable RStudio password (local dev only)
+COMPOSE_PROFILES=both          # Services to run: both | jupyter | rstudio
 RSTUDIO_PROFILE=minimal        # R build profile: minimal | no-stan | full
 ```
+
+### Service profiles
+
+| `COMPOSE_PROFILES` | Services started |
+|---|---|
+| `both` (default) | JupyterLab + RStudio |
+| `jupyter` | JupyterLab only |
+| `rstudio` | RStudio only |
 
 ### RStudio build profiles
 

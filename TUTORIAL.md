@@ -130,10 +130,24 @@ IMAGE_NAME=circadia_base
 # Disable RStudio password (suitable for local development only)
 DISABLE_AUTH=true
 
+# Services to run
+# Options: both (default) | jupyter | rstudio
+COMPOSE_PROFILES=both
+
 # RStudio build profile
 # Options: minimal (default) | no-stan | full
 RSTUDIO_PROFILE=minimal
 ```
+
+### Choosing which services to run
+
+The `COMPOSE_PROFILES` variable controls which containers are started:
+
+| Value | Services started | Use case |
+|---|---|---|
+| `both` (default) | JupyterLab + RStudio | Full environment |
+| `jupyter` | JupyterLab only | Python-only analyses |
+| `rstudio` | RStudio only | R-only analyses |
 
 ### Choosing an RStudio profile
 
