@@ -1,11 +1,8 @@
 FROM rocker/rstudio:4.4
 
-# Set up Posit Public Package Manager FIRST — before any package installs
-# HTTPUserAgent tells P3M which platform we are so it serves pre-compiled binaries
-RUN Rscript -e "options( \
-    repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest'), \
-    HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version['platform'], R.version['arch'], R.version['os'])) \
-)" >> /usr/local/lib/R/etc/Rprofile.site
+# Set P3M for Noble (Ubuntu 24.04) — rocker/rstudio:4.4 is based on Noble
+# Setting as ENV ensures rocker scripts respect it
+ENV CRAN=https://packagemanager.posit.co/cran/__linux__/noble/latest
 
 # Install tidyverse + verse stack using rocker's own scripts
 RUN /rocker_scripts/install_tidyverse.sh
