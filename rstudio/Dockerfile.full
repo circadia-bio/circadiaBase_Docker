@@ -1,0 +1,69 @@
+FROM rocker/rstudio:4.4
+
+# Install tidyverse + verse stack using rocker's own scripts
+RUN /rocker_scripts/install_tidyverse.sh
+RUN /rocker_scripts/install_verse.sh
+
+# System dependencies for R packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libglpk-dev \
+    libgmp-dev \
+    libxml2-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libfontconfig1-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Use Posit Public Package Manager for pre-compiled Linux binaries
+ENV CRAN=https://packagemanager.posit.co/cran/__linux__/jammy/latest
+RUN echo "options(repos = c(CRAN = '${CRAN}'))" >> /usr/local/lib/R/etc/Rprofile.site
+
+# ggplot2 extensions
+RUN Rscript -e "install.packages(c( \
+    'ggpubr', \
+    'ggrepel', \
+    'ggridges', \
+    'patchwork', \
+    'cowplot', \
+    'scales', \
+    'viridis', \
+    'RColorBrewer' \
+), Ncpus=4)"
+
+# Stats packages
+RUN Rscript -e "install.packages(c( \
+    'lme4', \
+    'lmerTest', \
+    'emmeans', \
+    'MuMIn', \
+    'effectsize', \
+    'performance', \
+    'parameters', \
+    'see' \
+), Ncpus=4)"
+
+# Bayesian stats (Stan — heavy compilation)
+RUN Rscript -e "install.packages(c( \
+    'brms', \
+    'bayesplot', \
+    'tidybayes', \
+    'rstanarm' \
+), Ncpus=4)"
+
+# Sleep & circadian packages
+RUN Rscript -e "install.packages(c( \
+    'GGIR', \
+    'ActCR', \
+    'circacompare', \
+    'cosinor', \
+    'cosinor2' \
+), Ncpus=4)"
+
+# lunaR from GitHub (Luna project)
+RUN Rscript -e "devtools::install_github('remnrem/luna')"

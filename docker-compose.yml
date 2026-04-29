@@ -16,7 +16,7 @@ services:
   rstudio:
     build:
       context: ./rstudio
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.${RSTUDIO_PROFILE:-minimal}
     image: ${IMAGE_NAME}_r:latest
     ports:
       - "8787:8787"
