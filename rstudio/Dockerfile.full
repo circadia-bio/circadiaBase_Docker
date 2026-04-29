@@ -1,68 +1,51 @@
-FROM rocker/rstudio:4.4
+FROM rocker/r2u:noble
 
-# Set P3M for Noble (Ubuntu 24.04) — rocker/rstudio:4.4 is based on Noble
-ENV CRAN=https://packagemanager.posit.co/cran/__linux__/noble/latest
+# Install RStudio Server on top of r2u
+RUN /rocker_scripts/install_rstudio.sh
 
-# Install tidyverse + verse stack using rocker's own scripts
-RUN /rocker_scripts/install_tidyverse.sh
-RUN /rocker_scripts/install_verse.sh
-
-# System dependencies for R packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libglpk-dev \
-    libgmp-dev \
-    libxml2-dev \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libfontconfig1-dev \
-    libharfbuzz-dev \
-    libfribidi-dev \
-    libfreetype6-dev \
-    libpng-dev \
-    libtiff5-dev \
-    libjpeg-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# r2u + bspm means install.packages() automatically uses apt binaries
+# All packages below install as pre-built .deb files — no compilation needed
 
 # ggplot2 extensions
-RUN Rscript -e "install.packages(c( \
-    'ggpubr', \
-    'ggrepel', \
-    'ggridges', \
-    'patchwork', \
-    'cowplot', \
-    'scales', \
-    'viridis', \
-    'RColorBrewer' \
-), Ncpus=4)"
+RUN install2.r --error --skipinstalled \
+    ggpubr \
+    ggrepel \
+    ggridges \
+    patchwork \
+    cowplot \
+    scales \
+    viridis \
+    RColorBrewer
 
 # Stats packages
-RUN Rscript -e "install.packages(c( \
-    'lme4', \
-    'lmerTest', \
-    'emmeans', \
-    'MuMIn', \
-    'effectsize', \
-    'performance', \
-    'parameters', \
-    'see' \
-), Ncpus=4)"
+RUN install2.r --error --skipinstalled \
+    lme4 \
+    lmerTest \
+    emmeans \
+    MuMIn \
+    effectsize \
+    performance \
+    parameters \
+    see
 
-# Bayesian stats (Stan — heavy compilation)
-RUN Rscript -e "install.packages(c( \
-    'brms', \
-    'bayesplot', \
-    'tidybayes', \
-    'rstanarm' \
-), Ncpus=4)"
+# Bayesian stats (Stan — still compiles, but dependencies install as binaries)
+RUN install2.r --error --skipinstalled \
+    brms \
+    bayesplot \
+    tidybayes \
+    rstanarm
 
 # Sleep & circadian packages
-RUN Rscript -e "install.packages(c( \
-    'GGIR', \
-    'ActCR', \
-    'circacompare', \
-    'cosinor', \
-    'cosinor2' \
-), Ncpus=4)"
+RUN install2.r --error --skipinstalled \
+    GGIR \
+    ActCR \
+    circacompare \
+    cosinor \
+    cosinor2
 
 # lunaR from GitHub (Luna project)
 RUN Rscript -e "devtools::install_github('remnrem/luna')"
+
+EXPOSE 8787
+
+CMD ["/init"]
