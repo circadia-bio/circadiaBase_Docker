@@ -1,9 +1,11 @@
 FROM rocker/rstudio:4.4
 
 # Set up Posit Public Package Manager FIRST — before any package installs
-# This ensures all subsequent installs use pre-compiled Linux binaries
-RUN echo "options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest'))" \
-    >> /usr/local/lib/R/etc/Rprofile.site
+# HTTPUserAgent tells P3M which platform we are so it serves pre-compiled binaries
+RUN Rscript -e "options( \
+    repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest'), \
+    HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version['platform'], R.version['arch'], R.version['os'])) \
+)" >> /usr/local/lib/R/etc/Rprofile.site
 
 # Install tidyverse + verse stack using rocker's own scripts
 RUN /rocker_scripts/install_tidyverse.sh
