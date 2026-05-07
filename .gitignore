@@ -15,6 +15,7 @@ __pycache__/
 
 # Package build artefacts
 *.egg-info/
+*/__pycache__/
 
 # Downloaded sample data — not part of the library
 demo-dependencies/
