@@ -188,8 +188,9 @@ To enable editable install, set `INSTALL_PACKAGE=true` in `.env` before building
 
 ### Licence
 
-`condor_pipeline` is released under the [MIT Licence](./LICENSE).
-Copyright © Circadia Lab — Lucas França & Mario Leocadio-Miguel
+The vendor algorithms bundled in `condor_pipeline/algorithms/vendor/` originate from [Condor-Instruments/actigraphy-tutorials-sample](https://github.com/Condor-Instruments/actigraphy-tutorials-sample) and are copyright © Condor Instruments. Please refer to their repository for licensing terms before redistribution.
+
+The remaining `condor_pipeline` wrapper code is copyright © Circadia Lab — Lucas França & Mario Leocadio-Miguel, released under the [MIT Licence](./LICENSE).
 
 ---
 
