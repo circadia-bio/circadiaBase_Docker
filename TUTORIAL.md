@@ -12,11 +12,12 @@ This guide walks you through setting up, running, and using the circadiaBase_Doc
 4. [Configuration](#4-configuration)
 5. [Building and Running](#5-building-and-running)
 6. [Using JupyterLab](#6-using-jupyterlab)
-7. [Using RStudio Server](#7-using-rstudio-server)
-8. [Working with Shared Files](#8-working-with-shared-files)
-9. [Managing the Stack](#9-managing-the-stack)
-10. [Switching R Profiles](#10-switching-r-profiles)
-11. [Troubleshooting](#11-troubleshooting)
+7. [Using condor_pipeline](#7-using-condor_pipeline)
+8. [Using RStudio Server](#8-using-rstudio-server)
+9. [Working with Shared Files](#9-working-with-shared-files)
+10. [Managing the Stack](#10-managing-the-stack)
+11. [Switching R Profiles](#11-switching-r-profiles)
+12. [Troubleshooting](#12-troubleshooting)
 
 ---
 
@@ -134,6 +135,10 @@ DISABLE_AUTH=true
 # Options: both (default) | jupyter | rstudio
 COMPOSE_PROFILES=both
 
+# Install condor_pipeline in editable mode
+# Set to true if the repo includes a pyproject.toml at the root
+INSTALL_PACKAGE=true
+
 # RStudio build profile
 # Options: minimal (default) | no-stan | full
 RSTUDIO_PROFILE=minimal
@@ -245,7 +250,88 @@ All files saved inside `/home/jovyan/<IMAGE_NAME>/` are written to the shared pr
 
 ---
 
-## 7. Using RStudio Server
+## 7. Using condor_pipeline
+
+`condor_pipeline` is the Circadia Lab's core actigraphy sleep analysis library. It is included in the repository and installed automatically in editable mode when `INSTALL_PACKAGE=true` is set in `.env`.
+
+### Enabling the editable install
+
+Ensure your `.env` contains:
+
+```bash
+INSTALL_PACKAGE=true
+```
+
+Then rebuild the Jupyter image:
+
+```bash
+docker-compose build --no-cache jupyter
+```
+
+### Importing in a notebook
+
+```python
+from condor_pipeline.pipeline import SleepPipeline
+from condor_pipeline.viz.actogram import plot_actogram
+```
+
+### Single file analysis
+
+```python
+from condor_pipeline.pipeline import SleepPipeline
+
+pipe = SleepPipeline(
+    "data/raw/subject_01.txt",
+    device="acttrust",       # or "actiwatch"
+    gap_threshold=120.0,    # seconds — flags timestamp gaps
+    wake_thresh=60,         # minutes — WASO threshold
+    export_offwrist=True,   # writes off-wrist CSV alongside input
+)
+
+result = pipe.run()
+
+# Per-night sleep statistics
+print(result.nights)
+
+# Plot actogram
+result.plot()
+```
+
+### Batch processing
+
+```python
+results = SleepPipeline.batch(
+    "data/raw/",
+    device="acttrust",
+    pattern="*.txt",
+)
+
+for r in results:
+    print(r.subject_id, r.nights)
+    r.plot()
+```
+
+### PipelineResult attributes
+
+| Attribute | Type | Description |
+|---|---|---|
+| `subject_id` | str | Derived from input filename stem |
+| `source_file` | Path | Path to the raw input file |
+| `df` | DataFrame | Final working DataFrame with all state columns |
+| `nights` | DataFrame | Per-night sleep statistics |
+| `issues` | DataFrame | Timestamp consistency issues (empty if none) |
+| `offwrist_csv` | Path or None | Path to exported off-wrist CSV |
+
+### Supported devices
+
+| Device string | Format |
+|---|---|
+| `acttrust` | Condor Instruments ActTrust |
+| `actiwatch` | Philips Actiwatch |
+
+---
+
+## 8. Using RStudio Server
 
 Once running, open your browser and navigate to:
 
@@ -300,7 +386,7 @@ Or use the **Files** pane → navigate to the folder → **More** → **Set As W
 
 ---
 
-## 8. Working with Shared Files
+## 9. Working with Shared Files
 
 Both services mount the same project directory, so files created in one are immediately visible in the other.
 
@@ -332,7 +418,7 @@ circadiaBase_Docker/
 
 ---
 
-## 9. Managing the Stack
+## 10. Managing the Stack
 
 ### Stop all services
 
@@ -369,7 +455,7 @@ docker-compose build --no-cache rstudio
 
 ---
 
-## 10. Switching R Profiles
+## 11. Switching R Profiles
 
 To switch from `minimal` to a heavier profile, edit `.env`:
 
@@ -388,7 +474,7 @@ docker-compose up
 
 ---
 
-## 11. Troubleshooting
+## 12. Troubleshooting
 
 ### Cannot connect to JupyterLab or RStudio
 
