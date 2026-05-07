@@ -186,6 +186,11 @@ for r in results:
 
 To enable editable install, set `INSTALL_PACKAGE=true` in `.env` before building.
 
+### Licence
+
+`condor_pipeline` is released under the [MIT Licence](./LICENSE).
+Copyright © Circadia Lab — Lucas França & Mario Leocadio-Miguel
+
 ---
 
 ## 📦 Python Dependencies
