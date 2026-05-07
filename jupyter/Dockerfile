@@ -57,6 +57,12 @@ ENV HDF5_USE_FILE_LOCKING=FALSE
 
 WORKDIR /home/jovyan/${IMAGE_NAME}
 
+# Optionally install the repo as a local Python package in editable mode.
+# Set INSTALL_PACKAGE=true in .env and ensure a pyproject.toml exists at the repo root.
+ARG INSTALL_PACKAGE=false
+COPY . .
+RUN if [ "$INSTALL_PACKAGE" = "true" ]; then pip install -e .; fi
+
 EXPOSE 8888
 
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''"]

@@ -5,6 +5,8 @@ services:
     build:
       context: ./jupyter
       dockerfile: Dockerfile
+      args:
+        INSTALL_PACKAGE: ${INSTALL_PACKAGE:-false}
     image: ${IMAGE_NAME}:latest
     ports:
       - "8889:8888"
